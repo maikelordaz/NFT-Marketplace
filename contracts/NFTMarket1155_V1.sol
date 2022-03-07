@@ -132,32 +132,20 @@ contract NFTMarket1155 is
             address seller = _idToNFTitem[listId].seller;
             uint tokenAmmount = _idToNFTitem[listId].tokenAmmount;
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
-            require (msg.value == price, "pay the complete price");
+            require (msg.value == price, "pay the complete price");                    
+            safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
+            _idToNFTitem[listId].NFTowner = payable(msg.sender);
+            _idToNFTitem[listId].sold = true;
+            _idToNFTitem[listId].seller = payable(address(0)); 
+            payable(owner()).transfer(listingPrice);
+            payable(seller).transfer(price);
             if (msg.value > price) {
-                uint excedent = msg.value - price;
-                payable(msg.sender).transfer(excedent);                
-                safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
-                _idToNFTitem[listId].NFTowner = payable(msg.sender);
-                _idToNFTitem[listId].sold = true;
-                _idToNFTitem[listId].seller = payable(address(0)); 
-                payable(owner()).transfer(listingPrice);
-                payable(seller).transfer(price);
-                emit Sale (
-                    listId,
-                    price,
-                    msg.sender);
-            }   else {          
-                    safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
-                    _idToNFTitem[listId].NFTowner = payable(msg.sender);
-                    _idToNFTitem[listId].sold = true;
-                    _idToNFTitem[listId].seller = payable(address(0)); 
-                    payable(owner()).transfer(listingPrice);
-                    payable(seller).transfer(msg.value);
-                    emit Sale (
-                        listId,
-                        price,
-                        msg.sender);
-                }
+                payable(msg.sender).transfer(msg.value - price);
+            }
+            emit Sale (
+                listId,
+                price,
+                msg.sender);             
     }
 
     function cancelSale(uint listId)
