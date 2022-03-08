@@ -1,0 +1,256 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0xb6d6d9891ddca580c3622a2f9d4258aeccfab9f627164bcfefcde107e89107d0",
+      "kind": "uups"
+    }
+  ],
+  "impls": {
+    "bf4d8e7eb9d38d1ad8fb55bda311bf7fbf9e51be71a00e5e686c2d32b9fafea8": {
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "txHash": "0x6bdfd5a283a38a04d457764407a2ea4c57f57f57003c174929f4ee7b22cfb496",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_balances",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC1155\\ERC1155Upgradeable.sol:25"
+          },
+          {
+            "label": "_operatorApprovals",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_bool))",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC1155\\ERC1155Upgradeable.sol:28"
+          },
+          {
+            "label": "_uri",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_string_storage",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC1155\\ERC1155Upgradeable.sol:31"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_array(t_uint256)47_storage",
+            "contract": "ERC1155Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC1155\\ERC1155Upgradeable.sol:475"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:107"
+          },
+          {
+            "label": "DAItoken",
+            "offset": 0,
+            "slot": "301",
+            "type": "t_contract(IERC20Upgradeable)2142",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:24"
+          },
+          {
+            "label": "LINKtoken",
+            "offset": 0,
+            "slot": "302",
+            "type": "t_contract(IERC20Upgradeable)2142",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:25"
+          },
+          {
+            "label": "ETHpricefeed",
+            "offset": 0,
+            "slot": "303",
+            "type": "t_contract(AggregatorV3Interface)45",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:26"
+          },
+          {
+            "label": "DAIpricefeed",
+            "offset": 0,
+            "slot": "304",
+            "type": "t_contract(AggregatorV3Interface)45",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:27"
+          },
+          {
+            "label": "LINKpricefeed",
+            "offset": 0,
+            "slot": "305",
+            "type": "t_contract(AggregatorV3Interface)45",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:28"
+          },
+          {
+            "label": "_listId",
+            "offset": 0,
+            "slot": "306",
+            "type": "t_uint256",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:29"
+          },
+          {
+            "label": "_idToNFTitem",
+            "offset": 0,
+            "slot": "307",
+            "type": "t_mapping(t_uint256,t_struct(NFTitem)2593_storage)",
+            "contract": "NFTMarket1155",
+            "src": "contracts\\NFTMarket1155_V1.sol:44"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_address_payable": {
+            "label": "address payable"
+          },
+          "t_array(t_uint256)47_storage": {
+            "label": "uint256[47]"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_contract(AggregatorV3Interface)45": {
+            "label": "contract AggregatorV3Interface"
+          },
+          "t_contract(IERC20Upgradeable)2142": {
+            "label": "contract IERC20Upgradeable"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+            "label": "mapping(address => mapping(address => bool))"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(uint256 => mapping(address => uint256))"
+          },
+          "t_mapping(t_uint256,t_struct(NFTitem)2593_storage)": {
+            "label": "mapping(uint256 => struct NFTMarket1155.NFTitem)"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_struct(NFTitem)2593_storage": {
+            "label": "struct NFTMarket1155.NFTitem",
+            "members": [
+              {
+                "label": "tokenId",
+                "type": "t_uint256"
+              },
+              {
+                "label": "tokenAmmount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "NFTprice",
+                "type": "t_uint256"
+              },
+              {
+                "label": "tokenAddress",
+                "type": "t_address"
+              },
+              {
+                "label": "seller",
+                "type": "t_address_payable"
+              },
+              {
+                "label": "NFTowner",
+                "type": "t_address"
+              },
+              {
+                "label": "sold",
+                "type": "t_bool"
+              },
+              {
+                "label": "cancelled",
+                "type": "t_bool"
+              }
+            ]
+          },
+          "t_uint256": {
+            "label": "uint256"
+          }
+        }
+      }
+    }
+  }
+}

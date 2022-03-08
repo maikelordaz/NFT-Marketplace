@@ -3,7 +3,7 @@ const { ethers } = require("hardhat");
 const { Contract, BigNumber } = require("ethers");
 
 //START OF TEST
-describe("Mycontract", function () {
+describe("NFTMarket1155", function () {
 
     let NFTMarket1155;
     let market;
@@ -22,7 +22,9 @@ describe("Mycontract", function () {
 //TESTS
 
     it("Should deploy the contract", async function () {
-        market = await NFTMarket1155.deploy();
+        //market = await NFTMarket1155.deploy();
+        market = await upgrades.deployProxy(NFTMarket1155, { kind: 'uups' });
+        //box = await upgrades.deployProxy(Box, { kind: 'uups' })
         await market.deployed();            
    });
 

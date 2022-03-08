@@ -2,7 +2,6 @@
 /**
 * @title NFT Marketplace
 * @author Maikel Ordaz
-* @notice 
 */
 
 pragma solidity ^0.8.4;
@@ -27,7 +26,7 @@ contract NFTMarket1155 is
     AggregatorV3Interface internal ETHpricefeed;
     AggregatorV3Interface internal DAIpricefeed;
     AggregatorV3Interface internal LINKpricefeed;
-    uint private _listId = 0;
+    uint private _listId;
 
     struct NFTitem {
         uint tokenId;
@@ -70,12 +69,13 @@ contract NFTMarket1155 is
 
 //FUNCTIONS
 
-    constructor() initializer {}
+    //constructor() initializer {}
 
     function initialize() public initializer {
         __ERC1155_init("");
         __Ownable_init();
         __UUPSUpgradeable_init();
+        _listId = 0;
         ETHpricefeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
         DAIpricefeed = AggregatorV3Interface(0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF);
         LINKpricefeed = AggregatorV3Interface(0xd8bD0a1cB028a31AA859A21A3758685a95dE4623);
@@ -273,5 +273,4 @@ contract NFTMarket1155 is
         internal
         onlyOwner  
         override {}
-
 }
