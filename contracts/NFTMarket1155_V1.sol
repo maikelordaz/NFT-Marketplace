@@ -9,7 +9,7 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
@@ -17,11 +17,12 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 contract NFTMarket1155 is 
                         Initializable, 
                         ERC1155Upgradeable, 
-                        OwnableUpgradeable,
+                        AccessControlUpgradeable,
                         UUPSUpgradeable {  
 
 //VARIABLES
 
+    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     IERC20Upgradeable DAItoken;
     IERC20Upgradeable LINKtoken;    
     AggregatorV3Interface internal ETHpricefeed;
@@ -74,8 +75,11 @@ contract NFTMarket1155 is
 
     function initialize() public initializer {
         __ERC1155_init("");
-        __Ownable_init();
+        __AccessControl_init();
+        //__Ownable_init();
         __UUPSUpgradeable_init();
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(UPGRADER_ROLE, msg.sender);
         ETHpricefeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
         DAIpricefeed = AggregatorV3Interface(0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF);
         LINKpricefeed = AggregatorV3Interface(0xd8bD0a1cB028a31AA859A21A3758685a95dE4623);
@@ -92,7 +96,7 @@ contract NFTMarket1155 is
         public 
         view 
         returns (uint) {
-            (uint80 roundID, int ETHprice, uint startedAt, uint timeStamp, uint80 answeredInRound) = 
+            ( , int ETHprice, , , ) = 
             ETHpricefeed.latestRoundData();
             return uint (ETHprice / 1e8);
     }
@@ -101,7 +105,7 @@ contract NFTMarket1155 is
         public 
         view 
         returns (uint) {
-            (uint80 roundID, int DAIprice, uint startedAt, uint timeStamp, uint80 answeredInRound) = 
+            (, int DAIprice, , , ) = 
             DAIpricefeed.latestRoundData();
             return uint (DAIprice / 1e8);
     }
@@ -110,7 +114,7 @@ contract NFTMarket1155 is
         public 
         view 
         returns (uint) {
-            (uint80 roundID, int LINKprice, uint startedAt, uint timeStamp, uint80 answeredInRound) = 
+            (, int LINKprice, , , ) = 
             LINKpricefeed.latestRoundData();
             return uint (LINKprice / 1e8);
     }
@@ -126,7 +130,7 @@ contract NFTMarket1155 is
 
             require (NFTprice > 0, "Price can not be 0.");
             require (tokenAmmount > 0, "You have to sale at least one token");
-            isApprovedForAll(msg.sender, owner()); 
+            setApprovalForAll(address(this), true);
             _idToNFTitem[_listId] = NFTitem (
                 tokenId,
                 tokenAmmount,
@@ -177,12 +181,12 @@ contract NFTMarket1155 is
             uint actualAmmount = balanceOf(seller, listId);
             require(tokenAmmount == actualAmmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
-            require (msg.value >= NFTprice, "pay the complete price");                    
+            require (msg.value >= NFTprice, "Pay the complete price.");                    
             safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
             _idToNFTitem[listId].NFTowner = payable(msg.sender);
             _idToNFTitem[listId].sold = true;
             _idToNFTitem[listId].seller = payable(address(0)); 
-            payable(owner()).transfer(fee);
+            payable(address(this)).transfer(fee);
             payable(seller).transfer(NFTprice);
             if (msg.value > NFTprice) {
                 payable(msg.sender).transfer(msg.value - NFTprice);
@@ -205,13 +209,13 @@ contract NFTMarket1155 is
             uint actualAmmount = balanceOf(seller, listId);
             require(tokenAmmount == actualAmmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
-            require (msg.value == NFTprice, "pay the complete price");                    
+            require (msg.value == NFTprice, "Pay the complete price.");                    
             DAItoken.transferFrom(msg.sender, seller, msg.value);
             safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
             _idToNFTitem[listId].NFTowner = payable(msg.sender);
             _idToNFTitem[listId].sold = true;
             _idToNFTitem[listId].seller = payable(address(0)); 
-            payable(owner()).transfer(fee);
+            payable(address(this)).transfer(fee);
             emit Sale (
                 listId,
                 NFTprice,
@@ -230,13 +234,13 @@ contract NFTMarket1155 is
             uint actualAmmount = balanceOf(seller, listId);
             require(tokenAmmount == actualAmmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
-            require (msg.value == NFTprice, "pay the complete price");                    
+            require (msg.value == NFTprice, "Pay the complete price.");                    
             LINKtoken.transferFrom(msg.sender, seller, msg.value);
             safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
             _idToNFTitem[listId].NFTowner = payable(msg.sender);
             _idToNFTitem[listId].sold = true;
             _idToNFTitem[listId].seller = payable(address(0)); 
-            payable(owner()).transfer(fee);
+            payable(address(this)).transfer(fee);
             emit Sale (
                 listId,
                 NFTprice,
@@ -258,11 +262,39 @@ contract NFTMarket1155 is
                 msg.sender);
     }
     /**
+    *@dev a function to withdraw the payments for the mint.
+    */
+    function withdraw() 
+        public 
+        payable 
+        onlyRole(DEFAULT_ADMIN_ROLE) {        
+            payable(msg.sender).transfer(address(this).balance);        
+    }
+    /**
     * @dev the function to authorize new versions of the marketplace.
     * @param newImplementation is the address of the new implementation contract
     */
     function _authorizeUpgrade(address newImplementation)
         internal
-        onlyOwner
+        onlyRole(UPGRADER_ROLE)
         override {}
+    /**
+    * @dev the next two functions are used only for the test of the contract
+    */
+    function isAdmin(address account) public virtual view returns(bool) {
+        return hasRole(DEFAULT_ADMIN_ROLE, account);
+    }
+    function isWhitelist(address account) public virtual view returns(bool) {
+        return hasRole(UPGRADER_ROLE, account);
+    }
+    /**
+    * @dev a function require by solidity due to the contracts inherited in this project. 
+    */
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC1155Upgradeable, AccessControlUpgradeable)
+        returns (bool){
+            return super.supportsInterface(interfaceId);
+    }
 }
