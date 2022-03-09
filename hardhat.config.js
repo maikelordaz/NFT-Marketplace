@@ -4,6 +4,7 @@ require ("@nomiclabs/hardhat-etherscan");
 require ("hardhat-gas-reporter");
 require ("solidity-coverage");
 require("@openzeppelin/hardhat-upgrades");
+require('@openzeppelin/test-helpers/configure');
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();

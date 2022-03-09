@@ -30,7 +30,7 @@ contract NFTMarket1155 is
 
     struct NFTitem {
         uint tokenId;
-        uint tokenAmmount;
+        uint tokenAmount;
         uint NFTprice;
         address tokenAddress;
         address payable seller;
@@ -45,9 +45,9 @@ contract NFTMarket1155 is
 
 //EVENTS
 
-    event NFTitemCreated (
+    event NFTitemListed (
         uint indexed tokenId,
-        uint tokenAmmount,
+        uint tokenAmount,
         uint NFTprice,
         address tokenAddress,
         address seller,
@@ -68,8 +68,6 @@ contract NFTMarket1155 is
     );
 
 //FUNCTIONS
-
-    //constructor() initializer {}
 
     function initialize() public initializer {
         __ERC1155_init("");
@@ -117,30 +115,30 @@ contract NFTMarket1155 is
     /**
     * @dev A function to list NFT items on the marketplace.
     * @param tokenId the Id of the tokens.
-    * @param tokenAmmount the ammount of tokens to put on sale.
+    * @param tokenAmount the amount of tokens to put on sale.
     * @param NFTprice the price for all the collection in USD.
     * @param tokenAddress the contract address of the token.
     */
-    function listNFTitem(uint tokenId, uint tokenAmmount, uint NFTprice, address tokenAddress)
+    function listNFTitem(uint tokenId, uint tokenAmount, uint NFTprice, address tokenAddress)
         public {
 
             require (NFTprice > 0, "Price can not be 0.");
-            require (tokenAmmount > 0, "You have to sale at least one token");
+            require (tokenAmount > 0, "You have to sale at least one token.");
            setApprovalForAll(address(this), true);
+           _listId++;
             _idToNFTitem[_listId] = NFTitem (
                 tokenId,
-                tokenAmmount,
+                tokenAmount,
                 NFTprice,                
                 tokenAddress,
                 payable(msg.sender),
                 msg.sender,
                 false,
                 false
-            );
-            _listId++;                     
-            emit NFTitemCreated (
+            );                                 
+            emit NFTitemListed (
                 tokenId,
-                tokenAmmount,
+                tokenAmount,
                 NFTprice,                
                 tokenAddress,
                 msg.sender,
@@ -163,7 +161,7 @@ contract NFTMarket1155 is
     /**
     * @dev three functions to buy a market item, paying with each of the tokens accepted.
     * @param listId it is the market id of the item to be buyed, this id it is used to check,
-    * price ammount, etc.
+    * price amount, etc.
     */
     function buyNFTitemETH(uint listId)
         public
@@ -173,17 +171,17 @@ contract NFTMarket1155 is
             uint NFTprice = _idToNFTitem[listId].NFTprice / ETHprice;
             uint fee = NFTprice * 1 / 100; 
             address seller = _idToNFTitem[listId].seller;
-            uint tokenAmmount = _idToNFTitem[listId].tokenAmmount;
-            uint actualAmmount = balanceOf(seller, listId);
-            require(tokenAmmount == actualAmmount, "The seller no longer owns this item.");
+            uint tokenAmount = _idToNFTitem[listId].tokenAmount;
+            uint actualAmount = balanceOf(seller, listId);
+            require(tokenAmount == actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value >= NFTprice, "Pay the complete price.");                    
-            safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
+            safeTransferFrom(seller, msg.sender, listId, tokenAmount, "");
             _idToNFTitem[listId].NFTowner = payable(msg.sender);
             _idToNFTitem[listId].sold = true;
-            _idToNFTitem[listId].seller = payable(address(0)); 
-            payable(address(this)).transfer(fee);
             payable(seller).transfer(NFTprice);
+            _idToNFTitem[listId].seller = payable(address(0)); 
+            payable(address(this)).transfer(fee);            
             if (msg.value > NFTprice) {
                 payable(msg.sender).transfer(msg.value - NFTprice);
             }
@@ -201,13 +199,13 @@ contract NFTMarket1155 is
             uint NFTprice = _idToNFTitem[listId].NFTprice / DAIprice;
             uint fee = NFTprice * 1 / 100; 
             address seller = _idToNFTitem[listId].seller;
-            uint tokenAmmount = _idToNFTitem[listId].tokenAmmount;
-            uint actualAmmount = balanceOf(seller, listId);
-            require(tokenAmmount == actualAmmount, "The seller no longer owns this item.");
+            uint tokenAmount = _idToNFTitem[listId].tokenAmount;
+            uint actualAmount = balanceOf(seller, listId);
+            require(tokenAmount == actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value == NFTprice, "Pay the complete price.");                    
             DAItoken.transferFrom(msg.sender, seller, msg.value);
-            safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
+            safeTransferFrom(seller, msg.sender, listId, tokenAmount, "");
             _idToNFTitem[listId].NFTowner = payable(msg.sender);
             _idToNFTitem[listId].sold = true;
             _idToNFTitem[listId].seller = payable(address(0)); 
@@ -226,13 +224,13 @@ contract NFTMarket1155 is
             uint NFTprice = _idToNFTitem[listId].NFTprice / LINKprice;
             uint fee = NFTprice * 1 / 100; 
             address seller = _idToNFTitem[listId].seller;
-            uint tokenAmmount = _idToNFTitem[listId].tokenAmmount;
-            uint actualAmmount = balanceOf(seller, listId);
-            require(tokenAmmount == actualAmmount, "The seller no longer owns this item.");
+            uint tokenAmount = _idToNFTitem[listId].tokenAmount;
+            uint actualAmount = balanceOf(seller, listId);
+            require(tokenAmount == actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value == NFTprice, "Pay the complete price.");                    
             LINKtoken.transferFrom(msg.sender, seller, msg.value);
-            safeTransferFrom(seller, msg.sender, listId, tokenAmmount, "");
+            safeTransferFrom(seller, msg.sender, listId, tokenAmount, "");
             _idToNFTitem[listId].NFTowner = payable(msg.sender);
             _idToNFTitem[listId].sold = true;
             _idToNFTitem[listId].seller = payable(address(0)); 

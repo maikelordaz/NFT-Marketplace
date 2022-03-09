@@ -3,14 +3,14 @@
   "proxies": [
     {
       "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0xb6d6d9891ddca580c3622a2f9d4258aeccfab9f627164bcfefcde107e89107d0",
+      "txHash": "0xa010bcc73b8d83fa4343e3c520e1eb781127ef52062d63f8ab44d38ce5dbbf3b",
       "kind": "uups"
     }
   ],
   "impls": {
-    "bf4d8e7eb9d38d1ad8fb55bda311bf7fbf9e51be71a00e5e686c2d32b9fafea8": {
+    "3c67513219595cd0910214b3d7d13ce93a595ee05d9415d51b62f38f180e5dee": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x6bdfd5a283a38a04d457764407a2ea4c57f57f57003c174929f4ee7b22cfb496",
+      "txHash": "0x348c88bf7eb1cc9d7a2cc8524b7c0edd61da9cad48a8d3e257fb0f8782a975d7",
       "layout": {
         "storage": [
           {
@@ -217,7 +217,7 @@
                 "type": "t_uint256"
               },
               {
-                "label": "tokenAmmount",
+                "label": "tokenAmount",
                 "type": "t_uint256"
               },
               {

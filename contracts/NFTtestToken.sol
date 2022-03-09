@@ -4,7 +4,6 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-
 contract MyTestToken is ERC1155 {
 
     using Counters for Counters.Counter;
@@ -13,7 +12,8 @@ contract MyTestToken is ERC1155 {
     struct NewToken {
         address ownerAddress; 
         uint tokenId; 
-        uint amount;}
+        uint amount;
+    }
 
     event NewTokenCreated (
         address indexed ownerAddress,
@@ -27,10 +27,6 @@ contract MyTestToken is ERC1155 {
         contractAddress = marketAddress;
     }
 
-    function setURI(string memory newuri) public  {
-        _setURI(newuri);
-    }
-
     function createToken(uint amount) public returns (uint) {
         uint newItemId=_tokenId.current();
         _tokenId.increment();
@@ -41,11 +37,8 @@ contract MyTestToken is ERC1155 {
             newItemId,
             amount
         );
-        return (newItemId);
-
-        
-        
-        
+        emit NewTokenCreated(msg.sender, newItemId, amount);
+        return (newItemId);   
     }
 
 }
