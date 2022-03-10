@@ -107,7 +107,7 @@ describe("NFTMarket1155", function () {
             to.be.revertedWith("This item is no longer on sale.");
     });
     it("Should purchase a sale with ETH", async function (){
-        await market.connect(NFTbuyer).buyNFTitemETH(tokenId1);
+        await market.buyNFTitemETH(tokenId1, {value: ethers.utils.parseEther("10")});
     });
 
 })
