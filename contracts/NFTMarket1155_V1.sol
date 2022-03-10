@@ -93,8 +93,7 @@ contract NFTMarket1155 is
             ( , int ETHprice, , , ) = 
             ETHpricefeed.latestRoundData();
             return uint (ETHprice / 1e8);
-    }
-
+    }    
     function getDAIprice() 
         public 
         view 
@@ -103,7 +102,6 @@ contract NFTMarket1155 is
             DAIpricefeed.latestRoundData();
             return uint (DAIprice / 1e8);
     }
-
     function getLINKprice() 
         public 
         view 
@@ -122,8 +120,8 @@ contract NFTMarket1155 is
     function listNFTitem(uint tokenId, uint tokenAmount, uint NFTprice, address tokenAddress)
         public {
 
-            require (NFTprice > 0, "Price can not be 0.");
-            require (tokenAmount > 0, "You have to sale at least one token.");
+           require (NFTprice > 0, "Price can not be 0.");
+           require (tokenAmount > 0, "You have to sale at least one token.");
            setApprovalForAll(owner(), true);
            _listId++;
             _idToNFTitem[_listId] = NFTitem (
@@ -172,8 +170,8 @@ contract NFTMarket1155 is
             uint fee = NFTprice * 1 / 100; 
             address seller = _idToNFTitem[listId].seller;
             uint tokenAmount = _idToNFTitem[listId].tokenAmount;
-            uint actualAmount = balanceOf(seller, listId);
-            require(tokenAmount >= actualAmount, "The seller no longer owns this item.");
+            uint actualAmount = balanceOf(seller, _idToNFTitem[listId].tokenId);
+            require(tokenAmount <= actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value >= NFTprice, "Pay the complete price.");                    
             safeTransferFrom(seller, msg.sender, listId, tokenAmount, "");
@@ -200,8 +198,8 @@ contract NFTMarket1155 is
             uint fee = NFTprice * 1 / 100; 
             address seller = _idToNFTitem[listId].seller;
             uint tokenAmount = _idToNFTitem[listId].tokenAmount;
-            uint actualAmount = balanceOf(seller, listId);
-            require(tokenAmount == actualAmount, "The seller no longer owns this item.");
+            uint actualAmount = balanceOf(seller, _idToNFTitem[listId].tokenId);
+            require(tokenAmount <= actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value == NFTprice, "Pay the complete price.");                    
             DAItoken.transferFrom(msg.sender, seller, msg.value);
@@ -225,8 +223,8 @@ contract NFTMarket1155 is
             uint fee = NFTprice * 1 / 100; 
             address seller = _idToNFTitem[listId].seller;
             uint tokenAmount = _idToNFTitem[listId].tokenAmount;
-            uint actualAmount = balanceOf(seller, listId);
-            require(tokenAmount == actualAmount, "The seller no longer owns this item.");
+            uint actualAmount = balanceOf(seller, _idToNFTitem[listId].tokenId);
+            require(tokenAmount <= actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value == NFTprice, "Pay the complete price.");                    
             LINKtoken.transferFrom(msg.sender, seller, msg.value);

@@ -13,7 +13,7 @@ describe("NFTMarket1155", function () {
     let tokenId1 = 1;
     let tokenId2 = 3;
     let tokenAmount = 10;
-    let price = 100;
+    let price = 10;
     let owner;
     let NFTseller1;
     let NFTseller2;
@@ -106,6 +106,8 @@ describe("NFTMarket1155", function () {
         await expect(market.connect(NFTseller2).cancelSale(tokenId2)).
             to.be.revertedWith("This item is no longer on sale.");
     });
-
+    it("Should purchase a sale with ETH", async function (){
+        await market.connect(NFTbuyer).buyNFTitemETH(tokenId1);
+    });
 
 })
