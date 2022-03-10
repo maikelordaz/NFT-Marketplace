@@ -5,6 +5,7 @@ require ("hardhat-gas-reporter");
 require ("solidity-coverage");
 require("@openzeppelin/hardhat-upgrades");
 require('@openzeppelin/test-helpers/configure');
+require("@nomiclabs/hardhat-web3");
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -19,27 +20,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
    solidity: "0.8.4",
-/*
-  networks: {
-    defaultNetwork: "hardhat",
-    
-    hardhat: {
-      chainId: 1337
-    },
 
-    rinkeby: {
-      url: process.env.NETWORK_RINKEBY_URL || '',
-      accounts: process.env.NETWORK_RINKEBY_PRIVATE_KEY !== undefined 
-      ? [process.env.NETWORK_RINKEBY_PRIVATE_KEY] : [],
-    },  
-    
-  },
-  */
-
-  etherscan: {
-    apiKey: {
-      rinkeby: process.env.ETHERSCAN_API_KEY
+   defaultNetwork: "hardhat",
+   networks: {
+     hardhat: {
+       forking: {
+         url: process.env.ALCHEMY_MAINNET_RPC_URL,
+         blockNumber: 14300000
+       }
+     }
     }
-  }
-
 };

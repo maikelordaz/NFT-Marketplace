@@ -2,6 +2,7 @@ const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
 const { Contract, BigNumber } = require("ethers");
 
+
 //START OF TEST
 describe("NFTMarket1155", function () {
 
@@ -50,18 +51,31 @@ describe("NFTMarket1155", function () {
     it("Should set the right owner of the marketplace", async function (){
         expect(await market.owner()).to.equal(owner.address);
     });
-    it("Should list an item in the marketplace", async function (){
+    it("Should be able to successfully get the ETH price from the oracle", async function () {
+        expect(await market.getETHprice()).not.be.null;
+    })
+    it("Should be able to successfully get the DAI pricefrom the oracle", async function () {
+        expect(await market.getDAIprice()).not.be.null;
+    })
+    it("Should be able to successfully get the LINK price from the oracle", async function () {
+        expect(await market.getLINKprice()).not.be.null;
+    })
+    it("Should list an item, already minted from the NFTtestToken contract, in the marketplace",
+      async function (){
         await market.connect(NFTseller1).listNFTitem(
             tokenId1, tokenAmount, price, tokenContract.address);
+        await expect(market.connect(NFTseller1).setApprovalForAll(owner.address, true));
         await expect(market.connect(NFTseller1).listNFTitem(
             tokenId1, tokenAmount, price, tokenContract.address)).
             to.emit(market, "NFTitemListed").withArgs(
             tokenId1, tokenAmount, price, tokenContract.address, 
             NFTseller1.address, NFTseller1.address, false, false);
     });
-    it("Should list a second item in the marketplace", async function (){
+    it("Should list a second item, already minted from the NFTtestToken contract, in the marketplace",
+      async function (){
         await market.connect(NFTseller2).listNFTitem(
             tokenId2, tokenAmount, price, tokenContract.address);
+        await expect(market.connect(NFTseller2).setApprovalForAll(owner.address, true));
         await expect(market.connect(NFTseller2).listNFTitem(
             tokenId2, tokenAmount, price, tokenContract.address)).
             to.emit(market, "NFTitemListed").withArgs(
@@ -92,12 +106,6 @@ describe("NFTMarket1155", function () {
         await expect(market.connect(NFTseller2).cancelSale(tokenId2)).
             to.be.revertedWith("This item is no longer on sale.");
     });
-
-    it("Should purchase a market sale", async function (){        
-        await market.connect(NFTbuyer).buyNFTitemETH(tokenId2, {value: ethers.utils.parseEther("100")});
-    });
-
-
 
 
 })

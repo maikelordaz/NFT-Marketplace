@@ -74,11 +74,11 @@ contract NFTMarket1155 is
         __Ownable_init();
         __UUPSUpgradeable_init();
         _listId = 0;
-        ETHpricefeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
-        DAIpricefeed = AggregatorV3Interface(0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF);
-        LINKpricefeed = AggregatorV3Interface(0xd8bD0a1cB028a31AA859A21A3758685a95dE4623);
-        DAItoken = IERC20Upgradeable(0x95b58a6Bff3D14B7DB2f5cb5F0Ad413DC2940658);
-        LINKtoken = IERC20Upgradeable(0x01BE23585060835E02B77ef475b0Cc51aA1e0709);        
+        ETHpricefeed = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+        DAIpricefeed = AggregatorV3Interface(0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9);
+        LINKpricefeed = AggregatorV3Interface(0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c);
+        DAItoken = IERC20Upgradeable(0x6B175474E89094C44Da98b954EedeAC495271d0F);
+        LINKtoken = IERC20Upgradeable(0x514910771AF9Ca656af840dff83E8264EcF986CA);        
     }
     /**
     * @dev The next three functions are related to the actual price of the tokens to be accepted. 
@@ -124,7 +124,7 @@ contract NFTMarket1155 is
 
             require (NFTprice > 0, "Price can not be 0.");
             require (tokenAmount > 0, "You have to sale at least one token.");
-           setApprovalForAll(address(this), true);
+           setApprovalForAll(owner(), true);
            _listId++;
             _idToNFTitem[_listId] = NFTitem (
                 tokenId,
@@ -173,7 +173,7 @@ contract NFTMarket1155 is
             address seller = _idToNFTitem[listId].seller;
             uint tokenAmount = _idToNFTitem[listId].tokenAmount;
             uint actualAmount = balanceOf(seller, listId);
-            require(tokenAmount == actualAmount, "The seller no longer owns this item.");
+            require(tokenAmount >= actualAmount, "The seller no longer owns this item.");
             require(_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
             require (msg.value >= NFTprice, "Pay the complete price.");                    
             safeTransferFrom(seller, msg.sender, listId, tokenAmount, "");
