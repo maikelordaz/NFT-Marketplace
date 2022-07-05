@@ -20,7 +20,7 @@
   "impls": {
     "6a2e467f10a72f09ea7a28c6edee93656487ae84ddd43c9d0225c7a7be7ed2be": {
       "address": "0x6C2d83262fF84cBaDb3e416D527403135D757892",
-      "txHash": "0x94e2f7b4fb1306b68c7519dba0e0565c44ebb0d3b53b4e420da183308cb28bc7",
+      "txHash": "0x080aada62a8c7f205d696c62a43800c3ed55655e6c1cb9fa06e3591ca732ff7f",
       "layout": {
         "storage": [
           {
@@ -171,7 +171,7 @@
             "label": "_idToNFTitem",
             "offset": 0,
             "slot": "307",
-            "type": "t_mapping(t_uint256,t_struct(NFTitem)2593_storage)",
+            "type": "t_mapping(t_uint256,t_struct(NFTitem)4294_storage)",
             "contract": "NFTMarket1155",
             "src": "contracts\\NFTMarket1155_V1.sol:44"
           }
@@ -213,13 +213,13 @@
           "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
             "label": "mapping(uint256 => mapping(address => uint256))"
           },
-          "t_mapping(t_uint256,t_struct(NFTitem)2593_storage)": {
+          "t_mapping(t_uint256,t_struct(NFTitem)4294_storage)": {
             "label": "mapping(uint256 => struct NFTMarket1155.NFTitem)"
           },
           "t_string_storage": {
             "label": "string"
           },
-          "t_struct(NFTitem)2593_storage": {
+          "t_struct(NFTitem)4294_storage": {
             "label": "struct NFTMarket1155.NFTitem",
             "members": [
               {

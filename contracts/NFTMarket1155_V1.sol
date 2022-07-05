@@ -81,10 +81,10 @@ contract NFTMarket1155 is
         LINKtoken = IERC20Upgradeable(0x514910771AF9Ca656af840dff83E8264EcF986CA);        
     }
     /**
-    * @dev The next three functions are related to the actual price of the tokens to be accepted. 
-    * This tokens are ETH, DAI and LINK
-    * @return uint it is typecasted tobe usefull ahead, also it is divided by the numbers of 
-    * decimals
+    * @dev The next three functions are related to the actual price of the tokens to be 
+    * accepted. This tokens are ETH, DAI and LINK
+    * @return uint it is typecasted tobe usefull ahead, also it is divided by the numbers
+    * of decimals
     */
     function getETHprice() 
         public 
@@ -156,10 +156,25 @@ contract NFTMarket1155 is
         returns(NFTitem memory) {
             return _idToNFTitem[listId];
     }
+        /**
+    * @dev a function to cancel the sale.
+    * @param listId it is the market id of the item.
+    */
+    function cancelSale(uint listId)
+        public {
+            require (msg.sender == _idToNFTitem[listId].seller, 
+                    "Only the seller can cancel this sale.");
+            require (_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
+            require (_idToNFTitem[listId].sold == false, "This item is already sold.");            
+            _idToNFTitem[listId].cancelled = true;           
+            emit Cancel (
+                listId,
+                msg.sender);
+    }
     /**
     * @dev three functions to buy a market item, paying with each of the tokens accepted.
-    * @param listId it is the market id of the item to be buyed, this id it is used to check,
-    * price amount, etc.
+    * @param listId it is the market id of the item to be buyed, this id it is used to 
+    * check, price amount, etc.
     */
     function buyNFTitemETH(uint listId)
         public
@@ -238,21 +253,7 @@ contract NFTMarket1155 is
                 NFTprice,
                 msg.sender);             
     }
-    /**
-    * @dev a function to cancel the sale.
-    * @param listId it is the market id of the item.
-    */
-    function cancelSale(uint listId)
-        public {
-            require (msg.sender == _idToNFTitem[listId].seller, 
-                    "Only the seller can cancel this sale.");
-            require (_idToNFTitem[listId].cancelled == false, "This item is no longer on sale.");
-            require (_idToNFTitem[listId].sold == false, "This item is already sold.");            
-            _idToNFTitem[listId].cancelled = true;           
-            emit Cancel (
-                listId,
-                msg.sender);
-    }
+
     /**
     *@dev a function to withdraw the payments for the mint.
     */
