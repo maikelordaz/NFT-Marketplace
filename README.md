@@ -1,7 +1,38 @@
-NFT Marketplace
+# NFT Marketplace
 
-There are two contracts:
+This is a solidity project about a NFT Marketplace:
 
-- NFTMarket1155_V1.sol: this is the main contract, a marketplace for ERC1155 tokens which receive a price in USD and accept payments in ETH, DAI and LINK using Chainlink oracles. Beyond that is upgradable under the UUPS pattern and only the owner can make the upgrades.
+* It´s an upgradeable smart contract, UUPS pattern.
+* it accept payments with ETH, DAI, and LINK
+* Only ERC1155 tokens.
 
-- NFTtestToken.sol: this is a secondary contract for testing purpose, it is a simple ERC1155 contract that allows to mint some tokens, the address of the contract and the tokens minted are the ones used to test the market contract.
+## :rocket: INSTALLATION
+
+1. Clone this repo
+2. Install the dependencies with 
+    > npm install
+3. Run test with any of
+    > npx hardhat test
+    > npm run test
+  
+## :floppy_disk: TECNOLOGIES
+
++ For the DAI and LINK prices
+    - Chainlink oracles
+
+## :keyboard: CODE
+
+You can follow the code with the coments, they explain every function on the contract.
+
+## :abacus: TEST
+
+The tests are divided to check every contract functionality one by one.
+
+## :bookmark_tabs: CONTRIBUTE
+
+If you want to contribute just fork the repo and describe the changes you made.
+
+## :balance_scale: LICENSE
+
+MIT
+
